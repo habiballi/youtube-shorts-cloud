@@ -1,8 +1,7 @@
 FROM python:3.11-slim
 WORKDIR /app
-RUN apt-get update && apt-get install -y ffmpeg git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-EXPOSE 5000
-CMD ["sh", "-c", "gunicorn --workers 2 --bind 0.0.0.0:${PORT:-5000} app:app"]
+CMD sh -c "gunicorn --bind 0.0.0.0:$PORT --workers 2 app:app"
