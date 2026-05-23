@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h2 class="text-center mb-4">Create Account</h2>
+    <form method="post">
+      <div class="form-floating mb-3"><input name="username" class="form-control" required><label>Username</label></div>
+      <div class="form-floating mb-3"><input name="password" type="password" class="form-control" required><label>Password</label></div>
+      <button class="btn btn-success w-100 btn-lg">Start Creating</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

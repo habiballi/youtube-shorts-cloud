@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-1">Dashboard</h1>
+    <p class="text-secondary">Hello {{ user.username }}, ready to go viral?</p>
+  </div>
+  <a href="/create" class="btn btn-primary btn-lg"><i class="bi bi-plus-lg"></i> New Short</a>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon bg-primary"><i class="bi bi-youtube"></i></div>
+      <div>
+        <div class="stat-label">YouTube</div>
+        <div class="stat-value">{% if youtube_connected %}<span class="text-success">Connected</span>{% else %}<a href="/connect_youtube" class="text-warning">Connect Now</a>{% endif %}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon bg-success"><i class="bi bi-film"></i></div>
+      <div><div class="stat-label">Total Shorts</div><div class="stat-value">{{ videos|length if videos else 0 }}</div></div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon bg-info"><i class="bi bi-robot"></i></div>
+      <div><div class="stat-label">AI Status</div><div class="stat-value text-success">Ready</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card glass">
+  <div class="card-header d-flex justify-content-between"><span>Recent Activity</span><a href="/history" class="btn btn-sm btn-outline-light">View All</a></div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+    <table class="table table-dark align-middle mb-0">
+      <thead><tr><th>Topic</th><th>Status</th><th>Created</th><th></th></tr></thead>
+      <tbody>
+      {% for v in videos[:5] %}
+        <tr>
+          <td>{{ v.topic[:60] }}</td>
+          <td><span class="badge bg-{{ 'success' if v.status=='uploaded' else 'warning' if v.status=='processing' else 'secondary' }}">{{ v.status }}</span></td>
+          <td class="text-secondary">{{ v.created_at.strftime('%d %b, %H:%M') }}</td>
+          <td>{% if v.youtube_url %}<a href="{{ v.youtube_url }}" target="_blank" class="btn btn-sm btn-outline-light"><i class="bi bi-box-arrow-up-right"></i></a>{% endif %}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4" class="text-center py-5 text-secondary">No shorts yet. Click "New Short" to start!</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
